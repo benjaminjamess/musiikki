@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Uusi kappale</title>
+</head>
+
+<body>
+    <h1>Uusi kappale</h1>
+  <form action="/create_item" method="post">
+    <p>
+      Otsikko: <br />
+      <input type="text" name="title" />
+    </p>
+    <p>
+      Artisti: <br />
+      <input type="text" name="artist" />
+    </p>
+    <p>
+      Arvosana: <br />
+      <input type="number" name="rating" min="1" max="5" />
+    </p>
+    <p>
+      Kommentti: <br />
+      <textarea rows="8" cols="60"name="comment"></textarea>
+    </p>
+    <input type="submit" value="Luo kappale" />
+  </form>
+</body>
+
+</html>
