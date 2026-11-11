@@ -2,10 +2,11 @@
 <html>
 
 <head>
-  <title>Kirjautuminen</title>
+  <title>Musiikkisuositussovellus</title>
 </head>
 
 <body>
+    <h1>Musiikkisuositussovellus</h1>
   {% if session.username %}
   <p>
     Olet kirjautunut nimellä {{ session.username }}
@@ -25,6 +26,9 @@
     </p>
     <input type="submit" value="Kirjaudu" />
   </form>
+  <p>
+    <a href="/register">Luo tunnus</a>
+  </p>
   {% endif %}
 </body>
 
