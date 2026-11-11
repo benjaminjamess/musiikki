@@ -19,6 +19,11 @@
     </a>
   </p>
   <h2>Kappaleet</h2>
+  <ul>
+    {% for item in items %}
+    <li><a href="/item/{{item.id}}">{{item.title}}</a></li>
+    {% endfor %}
+    </ul>
   {% else %}
   <form action="/login" method="post">
     <p>

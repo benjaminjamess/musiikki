@@ -7,3 +7,16 @@ def add_item(title, artist, rating, comment, user_id):
     
     sql = "INSERT INTO comments (item_id, user_id, content) VALUES (?, ?, ?)"
     db.execute(sql, [item_id, user_id, comment])
+def get_items():
+    sql = "SELECT id, title FROM items ORDER BY id DESC"
+    return db.query(sql)
+
+def get_item(item_id):   
+    sql = """SELECT items.id, items.title, items.artist, items.rating,
+        comments.content AS comment, users.username
+        FROM items
+        LEFT JOIN users ON items.user_id = users.id
+        LEFT JOIN comments ON comments.item_id = items.id
+        WHERE items.id = ?"""
+    results = db.query(sql, [item_id])
+    return results[0] if results else None
