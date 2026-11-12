@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Muokkaus</title>
+</head>
+
+<body>
+    <h1>Muokkaus</h1>
+  <form action="/update_item" method="post">
+    <p>
+      Otsikko: <br />
+      <input type="text" name="title" value="{{ item.title }}"/>
+    </p>
+    <p>
+      Artisti: <br />
+      <input type="text" name="artist" value="{{ item.artist }}" />
+    </p>
+    <p>
+      Arvosana: <br />
+      <input type="number" name="rating" min="1" max="5" value="{{ item.rating }}" />
+    </p>
+    <p>
+      Kommentti: <br />
+      <textarea rows="8" cols="60" name="comment">{{ item.comment }}</textarea>
+    </p>
+    <input type="hidden" name="item_id" value="{{ item.id }}" />
+    <input type="submit" value="Päivitä kappale" />
+  </form>
+</body>
+
+</html>

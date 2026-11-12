@@ -44,6 +44,26 @@ def create_item():
 
     return redirect("/")
 
+@app.route("/edit_item/<int:item_id>")
+def edit_item(item_id):
+    item=items.get_item(item_id)
+    return render_template("edit_item.html", item=item)
+
+@app.route("/update_item", methods=["POST"])
+def update_item():
+    if "user_id" not in session:
+        session.clear()
+        return redirect("/login")
+    item_id=request.form["item_id"]
+    title = request.form["title"]
+    artist = request.form["artist"]
+    rating = request.form["rating"]
+    comment = request.form["comment"]
+    
+    items.update_item(item_id, title, artist, rating, comment)
+
+    return redirect("/item/" + str(item_id))
+
 @app.route("/register")
 def register():
     return render_template("register.html")

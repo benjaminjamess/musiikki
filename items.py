@@ -13,10 +13,22 @@ def get_items():
 
 def get_item(item_id):   
     sql = """SELECT items.id, items.title, items.artist, items.rating,
-        comments.content AS comment, users.username
+        comments.content AS comment, users.username, users.id user_id
         FROM items
         LEFT JOIN users ON items.user_id = users.id
         LEFT JOIN comments ON comments.item_id = items.id
         WHERE items.id = ?"""
     results = db.query(sql, [item_id])
     return results[0] if results else None
+
+def update_item(item_id, title, artist, rating, comment):
+    sql = """UPDATE items SET title = ?, artist = ?, rating = ?
+            WHERE id = ?"""
+    db.execute(sql, [title, artist, rating, item_id])
+
+    sql = """UPDATE comments SET content = ?
+            WHERE item_id = ? AND user_id = (SELECT user_id FROM items WHERE id = ?)"""
+    db.execute(sql, [comment, item_id, item_id])
+            
+                
+
