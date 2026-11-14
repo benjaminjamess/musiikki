@@ -29,6 +29,13 @@ def update_item(item_id, title, artist, rating, comment):
     sql = """UPDATE comments SET content = ?
             WHERE item_id = ? AND user_id = (SELECT user_id FROM items WHERE id = ?)"""
     db.execute(sql, [comment, item_id, item_id])
+
+def remove_item(item_id):
+    sql = "DELETE FROM comments WHERE item_id = ?"
+    db.execute(sql, [item_id])
+
+    sql = "DELETE FROM items WHERE id = ?"
+    db.execute(sql, [item_id])
             
                 
 
