@@ -16,13 +16,13 @@ def index():
 
 @app.route("/find_item")
 def find_item():
-    query=request.args.get("query")
+    query = request.args.get("query")
     if query:
-        results=items.find_items(query)
+        results = items.find_items(query)
     else:
-        query=""
-        results=[]
-    return render_template("find_item.html", query=query, results=results)
+        query = ""
+        results = []
+    return render_template("find_item.html", query = query, results = results)
 
 @app.route("/item/<int:item_id>")
 def show_item(item_id):
@@ -40,7 +40,7 @@ def new_item():
     
     
 
-@app.route("/create_item", methods=["POST"])
+@app.route("/create_item", methods = ["POST"])
 def create_item():
     if "user_id" not in session:
         session.clear()
@@ -61,23 +61,23 @@ def edit_item(item_id):
     if "user_id" not in session:
         session.clear()
         return redirect("/login")
-    item=items.get_item(item_id)
+    item = items.get_item(item_id)
     if not item:
         abort(404)
-    if item["user_id"]!=session["user_id"]:
+    if item["user_id"] != session["user_id"]:
         abort(403)
-    return render_template("edit_item.html", item=item)
+    return render_template("edit_item.html", item = item)
 
-@app.route("/update_item", methods=["POST"])
+@app.route("/update_item", methods = ["POST"])
 def update_item():
     if "user_id" not in session:
         session.clear()
         return redirect("/login")
-    item_id=request.form["item_id"]
-    item=items.get_item(item_id)
+    item_id = request.form["item_id"]
+    item = items.get_item(item_id)
     if not item:
         abort(404)
-    if item["user_id"]!=session["user_id"]:
+    if item["user_id"] != session["user_id"]:
         abort(403)
     title = request.form["title"]
     artist = request.form["artist"]
@@ -88,7 +88,7 @@ def update_item():
 
     return redirect("/item/" + str(item_id))
 
-@app.route("/remove_item/<int:item_id>", methods=["GET", "POST"])
+@app.route("/remove_item/<int:item_id>", methods = ["GET", "POST"])
 def remove_item(item_id):
     if "user_id" not in session:
         session.clear()
@@ -98,10 +98,10 @@ def remove_item(item_id):
         abort(404)
     if item["user_id"] != session["user_id"]:
         abort(403)
-    if request.method=="GET":
-        item=items.get_item(item_id)
-        return render_template("remove_item.html", item=item)
-    if request.method=="POST":
+    if request.method == "GET":
+        item = items.get_item(item_id)
+        return render_template("remove_item.html", item = item)
+    if request.method == "POST":
         if "remove" in request.form:
             items.remove_item(item_id)
             return redirect("/")
@@ -112,7 +112,7 @@ def remove_item(item_id):
 def register():
     return render_template("register.html")
 
-@app.route("/create", methods=["POST"])
+@app.route("/create", methods = ["POST"])
 def create():
     username = request.form["username"]
     password1 = request.form["password1"]
@@ -129,22 +129,22 @@ def create():
 
     return render_template("account_created.html")
 
-@app.route("/login", methods=["GET", "POST"])
+@app.route("/login", methods = ["GET", "POST"])
 def login():
-    if request.method=="GET":
+    if request.method == "GET":
         return render_template("login.html")
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
         
         sql = "SELECT id, password_hash FROM users WHERE username = ?"
-        result=db.query(sql,[username])[0]
-        user_id=result["id"]
-        password_hash=result["password_hash"]
+        result = db.query(sql,[username])[0]
+        user_id = result["id"]
+        password_hash = result["password_hash"]
         
 
         if check_password_hash(password_hash, password):
-            session["user_id"]=user_id
+            session["user_id"] = user_id
             session["username"] = username
             return redirect("/")
         else:
