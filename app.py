@@ -1,6 +1,6 @@
 from flask import Flask
 import sqlite3
-from flask import redirect, render_template, request, session
+from flask import abort, redirect, render_template, request, session
 from werkzeug.security import check_password_hash,generate_password_hash
 import db
 import config
@@ -56,7 +56,12 @@ def create_item():
 
 @app.route("/edit_item/<int:item_id>")
 def edit_item(item_id):
+    if "user_id" not in session:
+        session.clear()
+        return redirect("/login")
     item=items.get_item(item_id)
+    if item["user_id"]!=session["user_id"]:
+        abort(403)
     return render_template("edit_item.html", item=item)
 
 @app.route("/update_item", methods=["POST"])
@@ -65,6 +70,9 @@ def update_item():
         session.clear()
         return redirect("/login")
     item_id=request.form["item_id"]
+    item=items.get_item(item_id)
+    if item["user_id"]!=session["user_id"]:
+        abort(403)
     title = request.form["title"]
     artist = request.form["artist"]
     rating = request.form["rating"]
@@ -76,6 +84,12 @@ def update_item():
 
 @app.route("/remove_item/<int:item_id>", methods=["GET", "POST"])
 def remove_item(item_id):
+    if "user_id" not in session:
+        session.clear()
+        return redirect("/login")
+    item = items.get_item(item_id)
+    if item["user_id"] != session["user_id"]:
+        abort(403)
     if request.method=="GET":
         item=items.get_item(item_id)
         return render_template("remove_item.html", item=item)
