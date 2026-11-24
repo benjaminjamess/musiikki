@@ -27,6 +27,8 @@ def find_item():
 @app.route("/item/<int:item_id>")
 def show_item(item_id):
     item = items.get_item(item_id)
+    if not item:
+        abort(404)
     return render_template("show_item.html", item=item)
 
 @app.route("/new_item")
@@ -60,6 +62,8 @@ def edit_item(item_id):
         session.clear()
         return redirect("/login")
     item=items.get_item(item_id)
+    if not item:
+        abort(404)
     if item["user_id"]!=session["user_id"]:
         abort(403)
     return render_template("edit_item.html", item=item)
@@ -71,6 +75,8 @@ def update_item():
         return redirect("/login")
     item_id=request.form["item_id"]
     item=items.get_item(item_id)
+    if not item:
+        abort(404)
     if item["user_id"]!=session["user_id"]:
         abort(403)
     title = request.form["title"]
@@ -88,6 +94,8 @@ def remove_item(item_id):
         session.clear()
         return redirect("/login")
     item = items.get_item(item_id)
+    if not item:
+        abort(404)
     if item["user_id"] != session["user_id"]:
         abort(403)
     if request.method=="GET":
