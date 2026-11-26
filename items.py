@@ -38,8 +38,9 @@ def remove_item(item_id):
     db.execute(sql, [item_id])
 
 def find_items(query):
-    sql = """SELECT items.id, items.title
+    sql = """SELECT items.id, items.title, users.username
              FROM items
+             LEFT JOIN users ON items.user_id = users.id
              LEFT JOIN comments ON comments.item_id = items.id
              WHERE items.title LIKE ? OR comments.content LIKE ?
              ORDER BY items.id DESC"""

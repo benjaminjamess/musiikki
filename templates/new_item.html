@@ -10,19 +10,19 @@
   <form action="/create_item" method="post">
     <p>
       Otsikko: <br />
-      <input type="text" name="title" />
+      <input type="text" name="title" maxlength="50" required/>
     </p>
     <p>
       Artisti: <br />
-      <input type="text" name="artist" />
+      <input type="text" name="artist" maxlength="50" required/>
     </p>
     <p>
       Arvosana: <br />
-      <input type="number" name="rating" min="1" max="5" />
+      <input type="number" name="rating" min="1" max="5" required/>
     </p>
     <p>
       Kommentti: <br />
-      <textarea rows="8" cols="60"name="comment"></textarea>
+      <textarea rows="8" cols="60"name="comment" maxlength="1000" required></textarea>
     </p>
     <input type="submit" value="Luo kappale" />
   </form>

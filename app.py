@@ -1,5 +1,6 @@
 from flask import Flask
 import sqlite3
+import re
 from flask import abort, redirect, render_template, request, session
 from werkzeug.security import check_password_hash,generate_password_hash
 import db
@@ -47,9 +48,18 @@ def create_item():
         return redirect("/login")
 
     title = request.form["title"]
+    if not title or len(title) > 50:
+        abort(403)
     artist = request.form["artist"]
+    if not artist or len(artist) > 50:
+        abort(403)
     rating = request.form["rating"]
+    if not re.fullmatch(r"[1-5]", rating):
+        abort(403)
+
     comment = request.form["comment"]
+    if not comment or len(comment) > 1000:
+            abort(403)
     user_id = session["user_id"]
     items.add_item(title, artist, rating, comment, user_id)
 
@@ -80,9 +90,17 @@ def update_item():
     if item["user_id"] != session["user_id"]:
         abort(403)
     title = request.form["title"]
+    if not title or len(title) > 50:
+        abort(403)
     artist = request.form["artist"]
+    if not artist or len(artist) > 50:
+        abort(403)
     rating = request.form["rating"]
+    if not re.fullmatch(r"[1-5]", rating):
+        abort(400)
     comment = request.form["comment"]
+    if not comment or len(comment) > 1000:
+        abort(403)
     
     items.update_item(item_id, title, artist, rating, comment)
 

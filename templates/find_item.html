@@ -20,7 +20,10 @@
     <h2> Tulokset</h2>
     <ul>
         {% for result in results %}
-        <li><a href="/item/{{ result.id }}">{{ result.title }}</a></li>
+        <li><a href="/item/{{ result.id }}">{{ result.title }}</a>
+        <br />
+        {{ result.username }} 
+        </li>
         {% endfor %}
     </ul>
     {% endif %}
